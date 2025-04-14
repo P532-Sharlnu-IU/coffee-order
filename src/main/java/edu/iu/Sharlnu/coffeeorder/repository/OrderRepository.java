@@ -16,7 +16,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrderRepository {
     public OrderRepository(){
-        File databaseFile = new File("coffee/db.txt");
+
+        File directory = new File("coffee");
+        if (!directory.exists()) {
+            boolean dirCreated = directory.mkdirs();
+            if (!dirCreated) {
+                System.err.println("Failed to create directory: " + directory.getAbsolutePath());
+                // Optionally, handle this error further (e.g., throw an exception)
+            }
+        }
+
+        File databaseFile = new File(directory, "db.txt");
         if (!databaseFile.exists()) {
             try {
                 databaseFile.createNewFile();
